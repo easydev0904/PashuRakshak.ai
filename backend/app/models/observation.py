@@ -1,11 +1,17 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import DateTime, Enum, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import DateTime, Enum, Float, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base_class import Base, TimestampMixin, new_uuid, utcnow
-from app.models.enums import ActivityLevel, AppetiteLevel, DungSign, RespiratorySign, WaterIntakeLevel
+from app.models.enums import (
+    ActivityLevel,
+    AppetiteLevel,
+    DungSign,
+    RespiratorySign,
+    WaterIntakeLevel,
+)
 
 
 class Observation(Base, TimestampMixin):
@@ -19,8 +25,12 @@ class Observation(Base, TimestampMixin):
         DateTime(timezone=True), nullable=False, default=utcnow
     )
 
-    appetite: Mapped[AppetiteLevel] = mapped_column(Enum(AppetiteLevel, name="appetite_level"), nullable=False)
-    activity: Mapped[ActivityLevel] = mapped_column(Enum(ActivityLevel, name="activity_level"), nullable=False)
+    appetite: Mapped[AppetiteLevel] = mapped_column(
+        Enum(AppetiteLevel, name="appetite_level"), nullable=False
+    )
+    activity: Mapped[ActivityLevel] = mapped_column(
+        Enum(ActivityLevel, name="activity_level"), nullable=False
+    )
     water_intake: Mapped[WaterIntakeLevel] = mapped_column(
         Enum(WaterIntakeLevel, name="water_intake_level"), nullable=False
     )

@@ -28,7 +28,9 @@ class Alert(Base, TimestampMixin):
     assigned_vet_id: Mapped[Optional[str]] = mapped_column(
         String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True
     )
-    acknowledged_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    acknowledged_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     resolution: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     assessment = relationship("RiskAssessment", back_populates="alert")

@@ -45,6 +45,8 @@ class CaseUpdate(Base, TimestampMixin):
         String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True
     )
     note: Mapped[str] = mapped_column(Text, nullable=False)
-    next_follow_up_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    next_follow_up_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
     case = relationship("Case", back_populates="updates")

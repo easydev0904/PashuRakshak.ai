@@ -13,9 +13,13 @@ class EducationContent(Base, TimestampMixin):
         Enum(EducationCategory, name="education_category"), nullable=False, index=True
     )
     title: Mapped[str] = mapped_column(String(200), nullable=False)
-    language: Mapped[Language] = mapped_column(Enum(Language, name="language"), nullable=False, index=True)
+    language: Mapped[Language] = mapped_column(
+        Enum(Language, name="language"), nullable=False, index=True
+    )
     body: Mapped[str] = mapped_column(Text, nullable=False)
     audience: Mapped[EducationAudience] = mapped_column(
-        Enum(EducationAudience, name="education_audience"), nullable=False, default=EducationAudience.all
+        Enum(EducationAudience, name="education_audience"),
+        nullable=False,
+        default=EducationAudience.all,
     )
     is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
