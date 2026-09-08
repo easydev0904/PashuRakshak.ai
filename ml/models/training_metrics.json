@@ -1,0 +1,54 @@
+{
+  "model_version": "prototype-v1",
+  "trained_at": "2026-09-08T18:40:32.214945+00:00",
+  "n_samples": 4000,
+  "feature_names": [
+    "appetite_score",
+    "activity_score",
+    "water_intake_abnormal",
+    "respiratory_score",
+    "dung_score",
+    "temperature_deviation",
+    "temperature_missing",
+    "milk_yield_change_pct",
+    "milk_yield_missing",
+    "concern_score",
+    "baseline_7d_concern_score",
+    "baseline_14d_concern_score",
+    "concern_change_from_baseline",
+    "repeated_abnormal_count",
+    "species_cattle",
+    "species_buffalo",
+    "age_band",
+    "vaccination_overdue",
+    "season_code"
+  ],
+  "train": {
+    "n": 2798,
+    "positive_rate": 0.29735525375268046,
+    "roc_auc": 0.9172464345801706,
+    "brier_score": 0.08246544522973268,
+    "precision": 0.8473557692307693,
+    "recall": 0.8473557692307693,
+    "f1": 0.8473557692307693
+  },
+  "val": {
+    "n": 601,
+    "positive_rate": 0.3211314475873544,
+    "roc_auc": 0.9257467235598902,
+    "brier_score": 0.0824521115543152,
+    "precision": 0.8484848484848485,
+    "recall": 0.8704663212435233,
+    "f1": 0.8593350383631714
+  },
+  "test": {
+    "n": 601,
+    "positive_rate": 0.28618968386023297,
+    "roc_auc": 0.9126958313004825,
+    "brier_score": 0.08309458566963758,
+    "precision": 0.8488372093023255,
+    "recall": 0.8488372093023255,
+    "f1": 0.8488372093023255
+  },
+  "note": "Trained entirely on synthetic/demo data. Not validated for clinical or field deployment."
+}
