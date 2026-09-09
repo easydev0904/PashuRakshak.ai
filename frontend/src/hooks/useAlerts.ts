@@ -32,6 +32,10 @@ export function useReviewAlert(alertId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: alertKeys.all });
       queryClient.invalidateQueries({ queryKey: alertKeys.detail(alertId) });
+      // request_follow_up can open/update a case for this alert's animal; the
+      // hook only knows the alertId, so invalidate every cached case list
+      // rather than threading animalId through just for this.
+      queryClient.invalidateQueries({ queryKey: ["cases"] });
     },
   });
 }
