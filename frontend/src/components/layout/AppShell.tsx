@@ -1,4 +1,13 @@
-import { LayoutDashboard, LogOut, Menu, PawPrint, ShieldAlert, Sprout, X } from "lucide-react";
+import {
+  BarChart3,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  PawPrint,
+  ShieldAlert,
+  Sprout,
+  X,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,10 +32,12 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: "/farmer/dashboard", labelKey: "nav.dashboard", icon: LayoutDashboard },
     { to: "/farmer/animals", labelKey: "nav.animals", icon: PawPrint },
     { to: "/prevention", labelKey: "nav.prevention", icon: Sprout },
+    { to: "/analytics", labelKey: "nav.analytics", icon: BarChart3 },
   ],
   veterinarian: [
     { to: "/vet/dashboard", labelKey: "nav.dashboard", icon: LayoutDashboard },
     { to: "/prevention", labelKey: "nav.prevention", icon: Sprout },
+    { to: "/analytics", labelKey: "nav.analytics", icon: BarChart3 },
   ],
   admin: [
     { to: "/admin/users", labelKey: "nav.users", icon: LayoutDashboard },

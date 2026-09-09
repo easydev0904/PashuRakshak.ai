@@ -14,6 +14,7 @@ import { AnimalRegisterPage } from "@/pages/farmer/AnimalRegisterPage";
 import { AnimalsListPage } from "@/pages/farmer/AnimalsListPage";
 import { FarmerDashboardPage } from "@/pages/farmer/FarmerDashboardPage";
 import { ObservationFormPage } from "@/pages/farmer/ObservationFormPage";
+import { AnalyticsPage } from "@/pages/shared/AnalyticsPage";
 import { PreventionLibraryPage } from "@/pages/shared/PreventionLibraryPage";
 import { AlertDetailPage } from "@/pages/vet/AlertDetailPage";
 import { VetDashboardPage } from "@/pages/vet/VetDashboardPage";
@@ -120,6 +121,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <PreventionLibraryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute roles={["farmer", "veterinarian", "admin"]}>
+              <AnalyticsPage />
             </ProtectedRoute>
           }
         />
