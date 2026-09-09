@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.animal import Animal
 from app.models.user import User
@@ -51,14 +51,19 @@ def list_due_soon_for_farm(
     db: Session, farm_ids: list, within: timedelta = DUE_SOON_WINDOW
 ) -> list:
     today = date.today()
+    # due_date is "when the next dose is due" regardless of whether a
+    # prior dose was already given -- a record can have both a past
+    # dose_date (the last shot) and an upcoming due_date (the booster),
+    # and that booster is exactly the kind of reminder a farmer needs.
+    # Only due_date matters here; dose_date is irrelevant to "is this due".
     stmt = (
         select(VaccinationRecord)
         .join(Animal, Animal.id == VaccinationRecord.animal_id)
+        .options(joinedload(VaccinationRecord.animal))
         .where(
             Animal.farm_id.in_(farm_ids),
             VaccinationRecord.due_date.is_not(None),
             VaccinationRecord.due_date <= today + within,
-            VaccinationRecord.dose_date.is_(None),
         )
         .order_by(VaccinationRecord.due_date.asc())
     )

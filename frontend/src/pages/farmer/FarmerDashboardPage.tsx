@@ -1,13 +1,13 @@
-import { Plus } from "lucide-react";
+import { Plus, Syringe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { AnimalCard } from "@/components/shared/AnimalCard";
 import { EmptyState, ErrorState, LoadingState } from "@/components/shared/StateViews";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimals } from "@/hooks/useAnimals";
-import { useFarms } from "@/hooks/useFarms";
+import { useFarms, useVaccinationsDue } from "@/hooks/useFarms";
 import { useAuth } from "@/store/AuthContext";
 
 export function FarmerDashboardPage() {
@@ -16,6 +16,7 @@ export function FarmerDashboardPage() {
   const farmsQuery = useFarms();
   const primaryFarm = farmsQuery.data?.[0];
   const animalsQuery = useAnimals(primaryFarm?.id);
+  const vaccinationsDueQuery = useVaccinationsDue(primaryFarm?.id);
 
   if (farmsQuery.isLoading || animalsQuery.isLoading) return <LoadingState />;
   if (farmsQuery.isError) {
@@ -48,6 +49,33 @@ export function FarmerDashboardPage() {
                 {t("farmerDashboard.addObservation")}
               </Link>
             </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {vaccinationsDueQuery.data && vaccinationsDueQuery.data.length > 0 && (
+        <Card>
+          <CardHeader className="flex-row items-center gap-2">
+            <Syringe className="h-4 w-4 text-secondary-foreground" aria-hidden="true" />
+            <CardTitle className="text-base">{t("farmerDashboard.vaccinationReminders")}</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+            {vaccinationsDueQuery.data.map((v) => {
+              const overdue = v.due_date ? new Date(v.due_date) < new Date() : false;
+              return (
+                <div
+                  key={v.id}
+                  className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm"
+                >
+                  <span>
+                    {v.animal_tag_id} · {v.vaccine_name}
+                  </span>
+                  <span className={overdue ? "font-medium text-destructive" : "text-muted-foreground"}>
+                    {overdue ? t("farmerDashboard.overdue") : t("farmerDashboard.dueOn")} {v.due_date}
+                  </span>
+                </div>
+              );
+            })}
           </CardContent>
         </Card>
       )}

@@ -18,3 +18,11 @@ export function useCreateFarm() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: farmKeys.all }),
   });
 }
+
+export function useVaccinationsDue(farmId: string | undefined) {
+  return useQuery({
+    queryKey: ["farms", farmId, "vaccinations-due"],
+    queryFn: () => farmService.vaccinationsDue(farmId!),
+    enabled: !!farmId,
+  });
+}

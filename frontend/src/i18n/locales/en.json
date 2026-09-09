@@ -61,7 +61,10 @@
     "recentAlerts": "Recent alerts",
     "noAlerts": "No alerts yet.",
     "registerAnimal": "Register an animal",
-    "noAnimalsYet": "You haven't registered any animals yet."
+    "noAnimalsYet": "You haven't registered any animals yet.",
+    "vaccinationReminders": "Vaccination reminders",
+    "overdue": "Overdue —",
+    "dueOn": "Due"
   },
   "animal": {
     "tagId": "Tag ID",

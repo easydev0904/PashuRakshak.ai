@@ -61,7 +61,10 @@
     "recentAlerts": "हाल के अलर्ट",
     "noAlerts": "अभी कोई अलर्ट नहीं है।",
     "registerAnimal": "पशु दर्ज करें",
-    "noAnimalsYet": "आपने अभी तक कोई पशु दर्ज नहीं किया है।"
+    "noAnimalsYet": "आपने अभी तक कोई पशु दर्ज नहीं किया है।",
+    "vaccinationReminders": "टीकाकरण अनुस्मारक",
+    "overdue": "देर हो गई —",
+    "dueOn": "देय तिथि"
   },
   "animal": {
     "tagId": "टैग आईडी",

@@ -22,3 +22,9 @@ class VaccinationRead(BaseModel):
     administered_by: Optional[str]
     evidence_url: Optional[str]
     created_at: datetime
+
+
+class VaccinationDue(VaccinationRead):
+    """Adds the animal's tag for reminder lists spanning multiple animals."""
+
+    animal_tag_id: str
