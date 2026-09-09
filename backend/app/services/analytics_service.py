@@ -3,15 +3,34 @@ from datetime import date, timedelta
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from app.core.config import get_settings
 from app.models.alert import Alert
 from app.models.animal import Animal
+from app.models.farm import Farm
 from app.models.observation import Observation
 from app.models.risk_assessment import RiskAssessment
-from app.schemas.analytics import FarmTrendPoint, FarmTrendsResponse, RiskBandCount
+from app.models.user import User
+from app.schemas.analytics import (
+    FarmTrendPoint,
+    FarmTrendsResponse,
+    RiskBandCount,
+    SystemHealthResponse,
+)
 from app.services.authz import get_farm_or_404
 from app.services.vaccination_service import list_due_soon_for_farm
 
 TREND_WINDOW_DAYS = 30
+
+
+def build_system_health(db: Session) -> SystemHealthResponse:
+    settings = get_settings()
+    return SystemHealthResponse(
+        status="ok",
+        environment=settings.ENVIRONMENT,
+        total_users=db.execute(select(func.count(User.id))).scalar_one(),
+        total_farms=db.execute(select(func.count(Farm.id))).scalar_one(),
+        total_animals=db.execute(select(func.count(Animal.id))).scalar_one(),
+    )
 
 
 def build_farm_trends(db: Session, farm_id: str) -> FarmTrendsResponse:

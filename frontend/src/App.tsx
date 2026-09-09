@@ -8,6 +8,7 @@ import { RootRedirect } from "@/pages/RootRedirect";
 import { AdminAuditLogsPage } from "@/pages/admin/AdminAuditLogsPage";
 import { AdminEducationPage } from "@/pages/admin/AdminEducationPage";
 import { AdminFarmsPage } from "@/pages/admin/AdminFarmsPage";
+import { AdminSystemPage } from "@/pages/admin/AdminSystemPage";
 import { AdminUsersPage } from "@/pages/admin/AdminUsersPage";
 import { AnimalProfilePage } from "@/pages/farmer/AnimalProfilePage";
 import { AnimalRegisterPage } from "@/pages/farmer/AnimalRegisterPage";
@@ -112,6 +113,14 @@ export default function App() {
           element={
             <ProtectedRoute roles={["admin"]}>
               <AdminAuditLogsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/system"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <AdminSystemPage />
             </ProtectedRoute>
           }
         />

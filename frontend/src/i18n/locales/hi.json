@@ -49,7 +49,8 @@
     "users": "उपयोगकर्ता",
     "farms": "फार्म",
     "education": "शिक्षा सामग्री",
-    "auditLogs": "ऑडिट लॉग"
+    "auditLogs": "ऑडिट लॉग",
+    "system": "सिस्टम"
   },
   "farmerDashboard": {
     "greeting": "नमस्ते, {{name}}",

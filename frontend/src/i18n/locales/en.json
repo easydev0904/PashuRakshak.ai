@@ -49,7 +49,8 @@
     "users": "Users",
     "farms": "Farms",
     "education": "Education content",
-    "auditLogs": "Audit logs"
+    "auditLogs": "Audit logs",
+    "system": "System"
   },
   "farmerDashboard": {
     "greeting": "Hello, {{name}}",

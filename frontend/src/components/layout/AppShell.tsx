@@ -1,4 +1,5 @@
 import {
+  Activity,
   BarChart3,
   LayoutDashboard,
   LogOut,
@@ -44,6 +45,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: "/admin/farms", labelKey: "nav.farms", icon: PawPrint },
     { to: "/admin/education", labelKey: "nav.education", icon: Sprout },
     { to: "/admin/audit-logs", labelKey: "nav.auditLogs", icon: ShieldAlert },
+    { to: "/admin/system", labelKey: "nav.system", icon: Activity },
   ],
 };
 
