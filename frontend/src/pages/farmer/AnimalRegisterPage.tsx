@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { friendlyErrorMessage } from "@/api/client";
+import { ImageUploadField } from "@/components/shared/ImageUploadField";
 import { LoadingState } from "@/components/shared/StateViews";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -88,6 +89,7 @@ export function AnimalRegisterPage() {
   const farmsQuery = useFarms();
   const createAnimal = useCreateAnimal();
   const [error, setError] = useState<string | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | undefined>(undefined);
 
   const {
     register,
@@ -112,6 +114,7 @@ export function AnimalRegisterPage() {
         species: values.species,
         sex: values.sex,
         farm_id: primaryFarm.id,
+        photo_url: photoUrl,
       });
       navigate(`/farmer/animals/${animal.id}`, { replace: true });
     } catch (err) {
@@ -127,6 +130,12 @@ export function AnimalRegisterPage() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+          <ImageUploadField
+            value={photoUrl}
+            onChange={setPhotoUrl}
+            label={`${t("observation.photo")}`}
+          />
+
           <div className="flex flex-col gap-2">
             <Label htmlFor="tag_id">{t("animal.tagId")}</Label>
             <Input id="tag_id" {...register("tag_id")} aria-invalid={!!errors.tag_id} />

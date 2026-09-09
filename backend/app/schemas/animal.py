@@ -14,6 +14,7 @@ class AnimalCreate(BaseModel):
     sex: Sex
     dob: Optional[date] = None
     notes: Optional[str] = Field(default=None, max_length=2000)
+    photo_url: Optional[str] = None
 
 
 class AnimalUpdate(BaseModel):

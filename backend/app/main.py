@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -15,12 +16,14 @@ from app.api.routes import (
     cases,
     education,
     farms,
+    uploads,
     users,
 )
 from app.core.config import get_settings
 from app.core.errors import AppError
 from app.core.limiter import limiter
 from app.db import base as _models  # noqa: F401  (registers all ORM models before first query)
+from app.services.storage import LocalStorageBackend
 
 settings = get_settings()
 
@@ -43,6 +46,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+if settings.UPLOAD_STORAGE_BACKEND == "local":
+    _local_storage = LocalStorageBackend(settings.UPLOAD_DIR)
+    app.mount("/uploads", StaticFiles(directory=_local_storage.base_dir), name="uploads")
 
 
 @app.exception_handler(AppError)
@@ -83,3 +90,4 @@ app.include_router(education.router, prefix=settings.API_V1_PREFIX)
 app.include_router(analytics.router, prefix=settings.API_V1_PREFIX)
 app.include_router(users.router, prefix=settings.API_V1_PREFIX)
 app.include_router(audit_logs.router, prefix=settings.API_V1_PREFIX)
+app.include_router(uploads.router, prefix=settings.API_V1_PREFIX)

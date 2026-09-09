@@ -28,6 +28,7 @@ def create_animal(db: Session, *, payload: AnimalCreate, current_user: User) -> 
         sex=payload.sex,
         dob=payload.dob,
         notes=payload.notes,
+        photo_url=payload.photo_url,
     )
     db.add(animal)
     try:

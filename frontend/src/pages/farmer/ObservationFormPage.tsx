@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 
 import { friendlyErrorMessage, isNetworkError } from "@/api/client";
+import { ImageUploadField } from "@/components/shared/ImageUploadField";
 import { OfflineSavedView } from "@/components/shared/OfflineSavedView";
 import { OptionPicker } from "@/components/shared/OptionPicker";
 import { RiskResultView } from "@/components/shared/RiskResultView";
@@ -63,6 +64,7 @@ export function ObservationFormPage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<RiskAssessment | null>(null);
   const [savedOffline, setSavedOffline] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
   const {
     control,
@@ -104,6 +106,7 @@ export function ObservationFormPage() {
         ? Number(values.milk_yield_change_pct)
         : undefined,
       notes: values.notes || undefined,
+      image_url: imageUrl,
     };
 
     if (!navigator.onLine) {
@@ -284,6 +287,11 @@ export function ObservationFormPage() {
                   </Label>
                   <Textarea id="notes" {...register("notes")} />
                 </div>
+                <ImageUploadField
+                  value={imageUrl}
+                  onChange={setImageUrl}
+                  label={t("observation.photo")}
+                />
               </div>
             )}
 

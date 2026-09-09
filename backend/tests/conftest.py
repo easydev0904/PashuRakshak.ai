@@ -1,10 +1,13 @@
-import os
+from pathlib import Path
 
-os.environ["ENVIRONMENT"] = "test"
-os.environ["DATABASE_URL"] = (
-    "postgresql+psycopg://pashurakshak:pashurakshak_dev_pw@localhost:5432/pashurakshak_test"
-)
-os.environ["JWT_SECRET_KEY"] = "test-secret-key-not-for-production-use-only"
+from dotenv import load_dotenv
+
+# .env.test is the single source of truth for test settings (test
+# database, test JWT secret, a separate UPLOAD_DIR so test uploads
+# never land in the real dev uploads/ folder). Load it before any
+# app.* module reads Settings(), and override=True so a developer's
+# real .env can't leak into a test run.
+load_dotenv(Path(__file__).resolve().parents[1] / ".env.test", override=True)
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

@@ -17,6 +17,7 @@ export interface AnimalInput {
   sex: Sex;
   dob?: string;
   notes?: string;
+  photo_url?: string;
 }
 
 export const animalService = {

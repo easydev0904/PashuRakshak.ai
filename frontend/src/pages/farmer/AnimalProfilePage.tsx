@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { z } from "zod";
 
-import { friendlyErrorMessage } from "@/api/client";
+import { friendlyErrorMessage, resolveMediaUrl } from "@/api/client";
 import { AnimalTimeline } from "@/components/shared/AnimalTimeline";
 import { RiskBadge } from "@/components/shared/RiskBadge";
 import { ErrorState, LoadingState } from "@/components/shared/StateViews";
@@ -97,9 +97,17 @@ export function AnimalProfilePage() {
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <Card>
         <CardContent className="flex items-center gap-4 p-6">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <Beef className="h-8 w-8" aria-hidden="true" />
-          </div>
+          {animal.photo_url ? (
+            <img
+              src={resolveMediaUrl(animal.photo_url)}
+              alt=""
+              className="h-16 w-16 shrink-0 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Beef className="h-8 w-8" aria-hidden="true" />
+            </div>
+          )}
           <div className="flex-1">
             <h1 className="text-xl font-bold">{animal.tag_id}</h1>
             <p className="text-sm text-muted-foreground">

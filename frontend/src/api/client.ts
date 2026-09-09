@@ -20,6 +20,21 @@ export const tokenStorage = {
 
 const baseURL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api/v1";
 
+// baseURL includes the /api/v1 prefix; uploaded-file URLs (e.g.
+// "/uploads/xyz.png") are served from the same backend origin but
+// outside that prefix, so strip it to get the plain origin.
+export const backendOrigin = baseURL.replace(/\/api\/v\d+\/?$/, "");
+
+/** Turns a backend-relative path (e.g. "/uploads/xyz.png") into an
+ * absolute URL. The frontend and backend run on different origins in
+ * dev, so a bare relative path would otherwise resolve against the
+ * frontend's own origin and 404. Already-absolute URLs pass through. */
+export function resolveMediaUrl(path: string | null | undefined): string | undefined {
+  if (!path) return undefined;
+  if (/^https?:\/\//.test(path)) return path;
+  return `${backendOrigin}${path}`;
+}
+
 export const apiClient = axios.create({ baseURL });
 
 apiClient.interceptors.request.use((config) => {
