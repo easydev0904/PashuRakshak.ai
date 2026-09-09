@@ -10,12 +10,12 @@ from app.schemas.observation import (
     ObservationCreate,
     ObservationRead,
     ObservationResult,
+    ObservationWithRisk,
     RiskAssessmentRead,
 )
 from app.schemas.vaccination import VaccinationCreate, VaccinationRead
 from app.services import animal_service, observation_service, vaccination_service
 from app.services.authz import assert_animal_access, get_animal_or_404
-from app.services.risk_service import CLINICAL_DISCLAIMER
 
 router = APIRouter(prefix="/animals", tags=["animals"])
 
@@ -50,7 +50,7 @@ def get_animal(
     return animal_service.get_animal_summary(db, animal)
 
 
-@router.get("/{animal_id}/observations", response_model=list[ObservationRead])
+@router.get("/{animal_id}/observations", response_model=list[ObservationWithRisk])
 def list_observations(
     animal_id: str,
     db: Session = Depends(get_db),
@@ -58,7 +58,18 @@ def list_observations(
 ) -> list:
     animal = get_animal_or_404(db, animal_id)
     assert_animal_access(db, user=current_user, animal=animal)
-    return observation_service.list_observations_for_animal(db, animal_id)
+    observations = observation_service.list_observations_for_animal(db, animal_id)
+    return [
+        ObservationWithRisk(
+            **ObservationRead.model_validate(obs).model_dump(),
+            risk_assessment=(
+                RiskAssessmentRead.from_orm_with_disclaimer(obs.risk_assessment)
+                if obs.risk_assessment
+                else None
+            ),
+        )
+        for obs in observations
+    ]
 
 
 @router.post("/{animal_id}/observations", response_model=ObservationResult, status_code=201)
@@ -73,20 +84,9 @@ def create_observation(
     observation, risk_assessment = observation_service.create_observation(
         db, animal=animal, payload=payload, current_user=current_user
     )
-    risk_read = RiskAssessmentRead(
-        id=risk_assessment.id,
-        observation_id=risk_assessment.observation_id,
-        model_version=risk_assessment.model_version,
-        risk_score=risk_assessment.risk_score,
-        risk_band=risk_assessment.risk_band,
-        top_factors=risk_assessment.top_factors_json,
-        human_review_required=risk_assessment.human_review_required,
-        clinical_disclaimer=CLINICAL_DISCLAIMER,
-        created_at=risk_assessment.created_at,
-    )
     return ObservationResult(
         observation=ObservationRead.model_validate(observation),
-        risk_assessment=risk_read,
+        risk_assessment=RiskAssessmentRead.from_orm_with_disclaimer(risk_assessment),
     )
 
 

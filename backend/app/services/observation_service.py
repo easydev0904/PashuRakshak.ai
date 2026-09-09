@@ -1,7 +1,7 @@
 from typing import Optional
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.db.base_class import utcnow
 from app.models.alert import Alert
@@ -111,6 +111,7 @@ def list_observations_for_animal(db: Session, animal_id: str) -> list:
     stmt = (
         select(Observation)
         .where(Observation.animal_id == animal_id)
+        .options(selectinload(Observation.risk_assessment))
         .order_by(Observation.observed_at.desc())
     )
     return list(db.execute(stmt).scalars().all())

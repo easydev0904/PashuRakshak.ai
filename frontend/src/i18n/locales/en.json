@@ -1,0 +1,216 @@
+{
+  "app": {
+    "name": "PashuRakshak AI",
+    "tagline": "Observe early. Act responsibly."
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "saveDraft": "Save draft",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
+    "retry": "Try again",
+    "close": "Close",
+    "logout": "Log out",
+    "language": "Language",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "unableToLoad": "Unable to load this page. Please try again.",
+    "offline": "You're offline",
+    "savedOffline": "Saved offline. It will sync automatically when you're back online.",
+    "syncing": "Syncing...",
+    "synced": "Synced",
+    "yes": "Yes",
+    "no": "No",
+    "optional": "Optional"
+  },
+  "auth": {
+    "login": "Log in",
+    "emailOrPhone": "Email or phone number",
+    "password": "Password",
+    "loginButton": "Log in",
+    "loginError": "Incorrect credentials. Please check and try again.",
+    "demoAccounts": "Demo accounts",
+    "selectLanguage": "Choose your language"
+  },
+  "roles": {
+    "farmer": "Farmer",
+    "veterinarian": "Veterinarian",
+    "admin": "Admin"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "animals": "My Animals",
+    "alerts": "Alerts",
+    "prevention": "Prevention",
+    "analytics": "Analytics",
+    "admin": "Admin",
+    "users": "Users",
+    "farms": "Farms",
+    "education": "Education content",
+    "auditLogs": "Audit logs"
+  },
+  "farmerDashboard": {
+    "greeting": "Hello, {{name}}",
+    "checkinCount": "{{count}} animal needs a check-in today",
+    "checkinCount_other": "{{count}} animals need a check-in today",
+    "allCaughtUp": "All animals have been checked in today",
+    "addObservation": "Add Today's Observation",
+    "yourAnimals": "Your animals",
+    "recentAlerts": "Recent alerts",
+    "noAlerts": "No alerts yet.",
+    "registerAnimal": "Register an animal",
+    "noAnimalsYet": "You haven't registered any animals yet."
+  },
+  "animal": {
+    "tagId": "Tag ID",
+    "species": "Species",
+    "breed": "Breed",
+    "sex": "Sex",
+    "dob": "Date of birth",
+    "notes": "Notes",
+    "cattle": "Cattle",
+    "buffalo": "Buffalo",
+    "male": "Male",
+    "female": "Female",
+    "status": "Status",
+    "lastCheckin": "Last check-in",
+    "neverChecked": "Not checked in yet",
+    "registerTitle": "Register an animal",
+    "registerSubtitle": "A few basic details are enough to get started.",
+    "profileTimeline": "Health timeline",
+    "vaccinations": "Vaccinations",
+    "addVaccination": "Add vaccination record",
+    "checkinDue": "Check-in due",
+    "noVaccinations": "No vaccination records yet.",
+    "noHistory": "No history yet."
+  },
+  "observation": {
+    "title": "Add Today's Observation",
+    "subtitle": "This takes about 2-3 minutes.",
+    "appetite": "How is the animal's appetite?",
+    "activity": "How active is the animal?",
+    "waterIntake": "How much water is the animal drinking?",
+    "respiratorySign": "Any breathing signs you've noticed?",
+    "dungSign": "How does the dung look?",
+    "temperature": "Temperature (Celsius)",
+    "milkYieldChange": "Change in milk yield (%)",
+    "notes": "Anything else you'd like to note?",
+    "photo": "Photo (optional)",
+    "levels": {
+      "appetite": {
+        "normal": "Normal",
+        "reduced": "Reduced",
+        "none": "Not eating"
+      },
+      "activity": {
+        "normal": "Normal",
+        "reduced": "Reduced",
+        "lethargic": "Very low / lethargic"
+      },
+      "water": {
+        "normal": "Normal",
+        "reduced": "Reduced",
+        "increased": "Increased"
+      },
+      "respiratory": {
+        "none": "None",
+        "mild": "Mild",
+        "coughing": "Coughing",
+        "labored": "Labored / heavy breathing"
+      },
+      "dung": {
+        "normal": "Normal",
+        "loose": "Loose",
+        "diarrhea": "Diarrhea",
+        "bloody": "Blood present"
+      }
+    },
+    "validation": {
+      "temperatureRange": "Temperature must be between 30C and 45C",
+      "milkYieldRange": "Milk yield change must be between -100% and 200%"
+    },
+    "timelineLabel": "Observation"
+  },
+  "riskResult": {
+    "title": "Early-Warning Result",
+    "low": "LOW",
+    "medium": "MEDIUM",
+    "high": "HIGH",
+    "lowDescription": "No concerning signals were found in this observation.",
+    "mediumDescription": "Your observation contains signals that may need closer attention.",
+    "highDescription": "Your observation contains signals that need prompt attention.",
+    "whyThisResult": "Why this result?",
+    "safeNextSteps": "Safe next steps",
+    "steps": {
+      "recheck": "Recheck the animal in the next few hours",
+      "keepRecords": "Keep observation records for reference",
+      "biosecurity": "Follow appropriate farm biosecurity practices",
+      "contactVetIfConcerned": "Contact a veterinarian if concerns persist",
+      "urgentVet": "Seek urgent veterinary assessment for serious symptoms"
+    },
+    "disclaimer": "AI screening alert - veterinarian assessment required.",
+    "contactVet": "Contact veterinarian",
+    "backToDashboard": "Back to dashboard"
+  },
+  "vetDashboard": {
+    "title": "Alert queue",
+    "totalActive": "Total active alerts",
+    "highPriority": "High priority",
+    "mediumPriority": "Medium priority",
+    "followUpsDue": "Follow-ups due",
+    "recentlyReviewed": "Recently reviewed",
+    "filters": "Filters",
+    "noAlerts": "No alerts match these filters."
+  },
+  "alertDetail": {
+    "title": "Alert detail",
+    "reportedObservation": "Reported observation",
+    "aiScreening": "AI screening",
+    "veterinaryAssessment": "Veterinary assessment",
+    "contributingSignals": "Contributing signals",
+    "acknowledge": "Acknowledge",
+    "assign": "Assign to me",
+    "requestFollowUp": "Request follow-up",
+    "openCase": "Open case",
+    "resolve": "Resolve alert",
+    "addClinicalNote": "Add clinical note"
+  },
+  "case": {
+    "status": "Status",
+    "suspectedCondition": "Suspected condition",
+    "confirmedCondition": "Confirmed condition (veterinarian entry)",
+    "confirmationBasis": "Confirmation basis",
+    "clinicalNotes": "Clinical notes",
+    "followUpDate": "Follow-up date",
+    "close": "Close case"
+  },
+  "prevention": {
+    "title": "Prevention library",
+    "categories": {
+      "vaccination": "Vaccination",
+      "hygiene": "Hygiene",
+      "quarantine": "Quarantine",
+      "nutrition": "Nutrition",
+      "biosecurity": "Biosecurity",
+      "general_observation": "General observation"
+    }
+  },
+  "analytics": {
+    "title": "Farm trends",
+    "totalAnimals": "Total animals",
+    "totalObservations": "Total observations",
+    "openAlerts": "Open alerts",
+    "vaccinationsDue": "Vaccinations due"
+  },
+  "admin": {
+    "usersTitle": "Users",
+    "farmsTitle": "Farms",
+    "educationTitle": "Education content",
+    "auditTitle": "Audit logs",
+    "createContent": "Add content",
+    "published": "Published",
+    "unpublished": "Unpublished"
+  }
+}

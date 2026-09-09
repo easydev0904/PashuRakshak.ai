@@ -10,7 +10,6 @@ from app.schemas.animal import AnimalRead
 from app.schemas.observation import ObservationRead, RiskAssessmentRead
 from app.services import alert_service
 from app.services.authz import assert_farm_access
-from app.services.risk_service import CLINICAL_DISCLAIMER
 
 router = APIRouter(prefix="/alerts", tags=["alerts"])
 
@@ -44,17 +43,7 @@ def get_alert(
     context = alert_service.get_alert_detail_context(db, alert)
     assert_farm_access(db, user=current_user, farm_id=context["animal"].farm_id)
 
-    risk_read = RiskAssessmentRead(
-        id=context["assessment"].id,
-        observation_id=context["assessment"].observation_id,
-        model_version=context["assessment"].model_version,
-        risk_score=context["assessment"].risk_score,
-        risk_band=context["assessment"].risk_band,
-        top_factors=context["assessment"].top_factors_json,
-        human_review_required=context["assessment"].human_review_required,
-        clinical_disclaimer=CLINICAL_DISCLAIMER,
-        created_at=context["assessment"].created_at,
-    )
+    risk_read = RiskAssessmentRead.from_orm_with_disclaimer(context["assessment"])
     return AlertDetail(
         **AlertRead.model_validate(alert).model_dump(),
         animal=AnimalRead.model_validate(context["animal"]),

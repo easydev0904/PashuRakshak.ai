@@ -1,0 +1,216 @@
+{
+  "app": {
+    "name": "पशुरक्षक AI",
+    "tagline": "समय पर देखें। ज़िम्मेदारी से कदम उठाएं।"
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "save": "सेव करें",
+    "saveDraft": "ड्राफ्ट सेव करें",
+    "submit": "सबमिट करें",
+    "cancel": "रद्द करें",
+    "next": "आगे",
+    "previous": "पीछे",
+    "retry": "फिर कोशिश करें",
+    "close": "बंद करें",
+    "logout": "लॉग आउट",
+    "language": "भाषा",
+    "somethingWentWrong": "कुछ गड़बड़ हुई। कृपया फिर कोशिश करें।",
+    "unableToLoad": "यह पेज लोड नहीं हो सका। कृपया फिर कोशिश करें।",
+    "offline": "आप ऑफ़लाइन हैं",
+    "savedOffline": "ऑफ़लाइन सेव हो गया। इंटरनेट आने पर यह अपने आप भेज दिया जाएगा।",
+    "syncing": "सिंक हो रहा है...",
+    "synced": "सिंक हो गया",
+    "yes": "हाँ",
+    "no": "नहीं",
+    "optional": "वैकल्पिक"
+  },
+  "auth": {
+    "login": "लॉग इन",
+    "emailOrPhone": "ईमेल या मोबाइल नंबर",
+    "password": "पासवर्ड",
+    "loginButton": "लॉग इन करें",
+    "loginError": "जानकारी सही नहीं है। कृपया दोबारा जांचें।",
+    "demoAccounts": "डेमो खाते",
+    "selectLanguage": "अपनी भाषा चुनें"
+  },
+  "roles": {
+    "farmer": "किसान",
+    "veterinarian": "पशु चिकित्सक",
+    "admin": "एडमिन"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "animals": "मेरे पशु",
+    "alerts": "अलर्ट",
+    "prevention": "बचाव",
+    "analytics": "विश्लेषण",
+    "admin": "एडमिन",
+    "users": "उपयोगकर्ता",
+    "farms": "फार्म",
+    "education": "शिक्षा सामग्री",
+    "auditLogs": "ऑडिट लॉग"
+  },
+  "farmerDashboard": {
+    "greeting": "नमस्ते, {{name}}",
+    "checkinCount": "आज {{count}} पशु की जांच बाकी है",
+    "checkinCount_other": "आज {{count}} पशुओं की जांच बाकी है",
+    "allCaughtUp": "आज सभी पशुओं की जांच हो गई है",
+    "addObservation": "आज की जांच जोड़ें",
+    "yourAnimals": "आपके पशु",
+    "recentAlerts": "हाल के अलर्ट",
+    "noAlerts": "अभी कोई अलर्ट नहीं है।",
+    "registerAnimal": "पशु दर्ज करें",
+    "noAnimalsYet": "आपने अभी तक कोई पशु दर्ज नहीं किया है।"
+  },
+  "animal": {
+    "tagId": "टैग आईडी",
+    "species": "प्रजाति",
+    "breed": "नस्ल",
+    "sex": "लिंग",
+    "dob": "जन्म तिथि",
+    "notes": "टिप्पणी",
+    "cattle": "गाय",
+    "buffalo": "भैंस",
+    "male": "नर",
+    "female": "मादा",
+    "status": "स्थिति",
+    "lastCheckin": "पिछली जांच",
+    "neverChecked": "अभी तक जांच नहीं हुई",
+    "registerTitle": "पशु दर्ज करें",
+    "registerSubtitle": "शुरू करने के लिए कुछ बुनियादी जानकारी काफी है।",
+    "profileTimeline": "स्वास्थ्य समयरेखा",
+    "vaccinations": "टीकाकरण",
+    "addVaccination": "टीकाकरण रिकॉर्ड जोड़ें",
+    "checkinDue": "जांच बाकी",
+    "noVaccinations": "अभी तक कोई टीकाकरण रिकॉर्ड नहीं है।",
+    "noHistory": "अभी तक कोई इतिहास नहीं है।"
+  },
+  "observation": {
+    "title": "आज की जांच जोड़ें",
+    "subtitle": "इसमें लगभग 2-3 मिनट लगेंगे।",
+    "appetite": "पशु की भूख कैसी है?",
+    "activity": "पशु कितना सक्रिय है?",
+    "waterIntake": "पशु कितना पानी पी रहा है?",
+    "respiratorySign": "क्या सांस लेने में कोई परेशानी दिखी?",
+    "dungSign": "गोबर कैसा दिख रहा है?",
+    "temperature": "तापमान (सेल्सियस)",
+    "milkYieldChange": "दूध उत्पादन में बदलाव (%)",
+    "notes": "कुछ और बताना चाहेंगे?",
+    "photo": "फोटो (वैकल्पिक)",
+    "levels": {
+      "appetite": {
+        "normal": "सामान्य",
+        "reduced": "कम",
+        "none": "खाना नहीं खा रहा"
+      },
+      "activity": {
+        "normal": "सामान्य",
+        "reduced": "कम",
+        "lethargic": "बहुत सुस्त"
+      },
+      "water": {
+        "normal": "सामान्य",
+        "reduced": "कम",
+        "increased": "ज़्यादा"
+      },
+      "respiratory": {
+        "none": "कोई नहीं",
+        "mild": "थोड़ी",
+        "coughing": "खांसी",
+        "labored": "भारी सांस"
+      },
+      "dung": {
+        "normal": "सामान्य",
+        "loose": "ढीला",
+        "diarrhea": "दस्त",
+        "bloody": "खून दिख रहा है"
+      }
+    },
+    "validation": {
+      "temperatureRange": "तापमान 30C से 45C के बीच होना चाहिए",
+      "milkYieldRange": "दूध में बदलाव -100% से 200% के बीच होना चाहिए"
+    },
+    "timelineLabel": "जांच"
+  },
+  "riskResult": {
+    "title": "प्रारंभिक चेतावनी परिणाम",
+    "low": "कम",
+    "medium": "मध्यम",
+    "high": "उच्च",
+    "lowDescription": "इस जांच में कोई चिंताजनक संकेत नहीं मिला।",
+    "mediumDescription": "आपकी जांच में कुछ संकेत हैं जिन पर ध्यान देना ज़रूरी हो सकता है।",
+    "highDescription": "आपकी जांच में ऐसे संकेत हैं जिन पर तुरंत ध्यान देना ज़रूरी है।",
+    "whyThisResult": "यह परिणाम क्यों?",
+    "safeNextSteps": "अगले सुरक्षित कदम",
+    "steps": {
+      "recheck": "कुछ घंटों में पशु की फिर से जांच करें",
+      "keepRecords": "जांच का रिकॉर्ड रखें",
+      "biosecurity": "फार्म की सुरक्षा प्रक्रियाओं का पालन करें",
+      "contactVetIfConcerned": "चिंता बने रहने पर पशु चिकित्सक से संपर्क करें",
+      "urgentVet": "गंभीर लक्षणों के लिए तुरंत पशु चिकित्सक से मिलें"
+    },
+    "disclaimer": "AI स्क्रीनिंग अलर्ट - पशु चिकित्सक की जांच आवश्यक है।",
+    "contactVet": "पशु चिकित्सक से संपर्क करें",
+    "backToDashboard": "डैशबोर्ड पर वापस जाएं"
+  },
+  "vetDashboard": {
+    "title": "अलर्ट सूची",
+    "totalActive": "सक्रिय अलर्ट",
+    "highPriority": "उच्च प्राथमिकता",
+    "mediumPriority": "मध्यम प्राथमिकता",
+    "followUpsDue": "फॉलो-अप बाकी",
+    "recentlyReviewed": "हाल में जांचे गए",
+    "filters": "फ़िल्टर",
+    "noAlerts": "इन फ़िल्टर से कोई अलर्ट नहीं मिला।"
+  },
+  "alertDetail": {
+    "title": "अलर्ट विवरण",
+    "reportedObservation": "दर्ज की गई जांच",
+    "aiScreening": "AI स्क्रीनिंग",
+    "veterinaryAssessment": "पशु चिकित्सक का आकलन",
+    "contributingSignals": "योगदान करने वाले संकेत",
+    "acknowledge": "स्वीकार करें",
+    "assign": "मुझे सौंपें",
+    "requestFollowUp": "फॉलो-अप का अनुरोध करें",
+    "openCase": "केस खोलें",
+    "resolve": "अलर्ट बंद करें",
+    "addClinicalNote": "क्लिनिकल टिप्पणी जोड़ें"
+  },
+  "case": {
+    "status": "स्थिति",
+    "suspectedCondition": "संभावित स्थिति",
+    "confirmedCondition": "पुष्टि की गई स्थिति (पशु चिकित्सक की प्रविष्टि)",
+    "confirmationBasis": "पुष्टि का आधार",
+    "clinicalNotes": "क्लिनिकल टिप्पणियां",
+    "followUpDate": "फॉलो-अप तिथि",
+    "close": "केस बंद करें"
+  },
+  "prevention": {
+    "title": "बचाव पुस्तिका",
+    "categories": {
+      "vaccination": "टीकाकरण",
+      "hygiene": "स्वच्छता",
+      "quarantine": "क्वारंटीन",
+      "nutrition": "पोषण",
+      "biosecurity": "जैव सुरक्षा",
+      "general_observation": "सामान्य निरीक्षण"
+    }
+  },
+  "analytics": {
+    "title": "फार्म रुझान",
+    "totalAnimals": "कुल पशु",
+    "totalObservations": "कुल जांच",
+    "openAlerts": "खुले अलर्ट",
+    "vaccinationsDue": "टीकाकरण बाकी"
+  },
+  "admin": {
+    "usersTitle": "उपयोगकर्ता",
+    "farmsTitle": "फार्म",
+    "educationTitle": "शिक्षा सामग्री",
+    "auditTitle": "ऑडिट लॉग",
+    "createContent": "सामग्री जोड़ें",
+    "published": "प्रकाशित",
+    "unpublished": "अप्रकाशित"
+  }
+}

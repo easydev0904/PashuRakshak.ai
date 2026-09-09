@@ -94,6 +94,21 @@ def test_list_observations_ordered_most_recent_first(client, farmer_user, animal
     assert len(resp.json()) == 2
 
 
+def test_list_observations_includes_nested_risk_assessment(client, farmer_user, animal):
+    headers = auth_header(client, "farmer@example.com")
+    client.post(f"/api/v1/animals/{animal.id}/observations", json=SEVERE_PAYLOAD, headers=headers)
+
+    resp = client.get(f"/api/v1/animals/{animal.id}/observations", headers=headers)
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body[0]["risk_assessment"] is not None
+    assert body[0]["risk_assessment"]["risk_band"] == "high"
+    assert (
+        body[0]["risk_assessment"]["clinical_disclaimer"]
+        == "AI screening alert - veterinarian assessment required."
+    )
+
+
 def test_farmer_cannot_submit_observation_for_other_farms_animal(
     client, farmer_user, other_farm, db
 ):

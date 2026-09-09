@@ -11,6 +11,7 @@ from app.models.enums import (
     RiskBand,
     WaterIntakeLevel,
 )
+from app.models.risk_assessment import RiskAssessment
 
 # Prototype validation bounds — not clinical thresholds, just guards
 # against physically impossible thermometer/measurement input. See
@@ -79,9 +80,31 @@ class RiskAssessmentRead(BaseModel):
     clinical_disclaimer: str
     created_at: datetime
 
+    @classmethod
+    def from_orm_with_disclaimer(cls, risk_assessment: RiskAssessment) -> "RiskAssessmentRead":
+        from app.services.risk_service import CLINICAL_DISCLAIMER
+
+        return cls(
+            id=risk_assessment.id,
+            observation_id=risk_assessment.observation_id,
+            model_version=risk_assessment.model_version,
+            risk_score=risk_assessment.risk_score,
+            risk_band=risk_assessment.risk_band,
+            top_factors=risk_assessment.top_factors_json,
+            human_review_required=risk_assessment.human_review_required,
+            clinical_disclaimer=CLINICAL_DISCLAIMER,
+            created_at=risk_assessment.created_at,
+        )
+
 
 class ObservationResult(BaseModel):
     """What the farmer sees right after submitting an observation."""
 
     observation: ObservationRead
     risk_assessment: RiskAssessmentRead
+
+
+class ObservationWithRisk(ObservationRead):
+    """Used by the animal timeline, which needs each past observation's risk band."""
+
+    risk_assessment: Optional[RiskAssessmentRead] = None
