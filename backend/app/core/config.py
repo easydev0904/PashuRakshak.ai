@@ -1,9 +1,19 @@
 """Application configuration loaded from environment variables."""
 
+import sys
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# The ml/ package lives at the repo root (sibling of backend/). Adding it
+# to sys.path here means every module that imports app.core.config (i.e.
+# almost every module in this app) can `from ml.src... import ...`
+# without repeating this bootstrap.
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 
 class Settings(BaseSettings):

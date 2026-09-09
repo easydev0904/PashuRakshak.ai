@@ -16,7 +16,9 @@ from app.api.deps import get_db  # noqa: E402
 from app.core.config import get_settings  # noqa: E402
 from app.core.security import hash_password  # noqa: E402
 from app.main import app  # noqa: E402
-from app.models.enums import Language, UserRole  # noqa: E402
+from app.models.animal import Animal  # noqa: E402
+from app.models.enums import Language, Sex, Species, UserRole  # noqa: E402
+from app.models.farm import Farm, FarmMembership  # noqa: E402
 from app.models.user import User  # noqa: E402
 
 settings = get_settings()
@@ -101,3 +103,34 @@ def auth_header(client, email, password="testpass123"):
     assert resp.status_code == 200, resp.text
     token = resp.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
+
+
+@pytest.fixture
+def farm(db, farmer_user):
+    farm = Farm(name="Green Valley Farm", village="Rampur", district="Meerut", state="UP")
+    db.add(farm)
+    db.flush()
+    db.add(FarmMembership(farm_id=farm.id, user_id=farmer_user.id, role=UserRole.farmer))
+    db.commit()
+    return farm
+
+
+@pytest.fixture
+def other_farm(db):
+    other_farmer = make_user(
+        db, role=UserRole.farmer, email="other_farmer@example.com", name="Other Farmer"
+    )
+    farm = Farm(name="Other Farm", village="Elsewhere")
+    db.add(farm)
+    db.flush()
+    db.add(FarmMembership(farm_id=farm.id, user_id=other_farmer.id, role=UserRole.farmer))
+    db.commit()
+    return farm
+
+
+@pytest.fixture
+def animal(db, farm):
+    animal = Animal(farm_id=farm.id, tag_id="COW-001", species=Species.cattle, sex=Sex.female)
+    db.add(animal)
+    db.commit()
+    return animal
