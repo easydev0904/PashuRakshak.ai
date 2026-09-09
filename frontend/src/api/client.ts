@@ -65,6 +65,13 @@ apiClient.interceptors.response.use(
   },
 );
 
+/** True when the request never reached the server (offline, DNS, timeout) --
+ * as opposed to a real 4xx/5xx the server sent back. Callers use this to
+ * decide whether to fall back to an offline draft or show a real error. */
+export function isNetworkError(error: unknown): boolean {
+  return axios.isAxiosError(error) && !error.response;
+}
+
 export function friendlyErrorMessage(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
     const body = error.response?.data as ApiErrorBody | undefined;

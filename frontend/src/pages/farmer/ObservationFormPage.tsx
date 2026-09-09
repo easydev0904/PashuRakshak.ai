@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 
-import { friendlyErrorMessage } from "@/api/client";
+import { friendlyErrorMessage, isNetworkError } from "@/api/client";
+import { OfflineSavedView } from "@/components/shared/OfflineSavedView";
 import { OptionPicker } from "@/components/shared/OptionPicker";
 import { RiskResultView } from "@/components/shared/RiskResultView";
 import { ErrorState, LoadingState } from "@/components/shared/StateViews";
@@ -21,7 +22,8 @@ import {
   MIN_PLAUSIBLE_MILK_YIELD_CHANGE_PCT,
   MIN_PLAUSIBLE_TEMPERATURE_C,
 } from "@/utils/observationLimits";
-import type { RiskAssessment } from "@/types/api";
+import { offlineQueue } from "@/utils/offlineQueue";
+import type { ObservationInput, RiskAssessment } from "@/types/api";
 
 const schema = z.object({
   appetite: z.enum(["normal", "reduced", "none"]),
@@ -60,6 +62,7 @@ export function ObservationFormPage() {
   const [step, setStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<RiskAssessment | null>(null);
+  const [savedOffline, setSavedOffline] = useState(false);
 
   const {
     control,
@@ -84,24 +87,40 @@ export function ObservationFormPage() {
   if (result && animalId) {
     return <RiskResultView risk={result} animalId={animalId} />;
   }
+  if (savedOffline && animalId) {
+    return <OfflineSavedView animalId={animalId} />;
+  }
 
   const onSubmit = async (values: FormValues) => {
     setError(null);
+    const payload: ObservationInput = {
+      appetite: values.appetite,
+      activity: values.activity,
+      water_intake: values.water_intake,
+      respiratory_sign: values.respiratory_sign,
+      dung_sign: values.dung_sign,
+      temperature_c: values.temperature_c ? Number(values.temperature_c) : undefined,
+      milk_yield_change_pct: values.milk_yield_change_pct
+        ? Number(values.milk_yield_change_pct)
+        : undefined,
+      notes: values.notes || undefined,
+    };
+
+    if (!navigator.onLine) {
+      offlineQueue.enqueue(animalId!, payload);
+      setSavedOffline(true);
+      return;
+    }
+
     try {
-      const response = await submitObservation.mutateAsync({
-        appetite: values.appetite,
-        activity: values.activity,
-        water_intake: values.water_intake,
-        respiratory_sign: values.respiratory_sign,
-        dung_sign: values.dung_sign,
-        temperature_c: values.temperature_c ? Number(values.temperature_c) : undefined,
-        milk_yield_change_pct: values.milk_yield_change_pct
-          ? Number(values.milk_yield_change_pct)
-          : undefined,
-        notes: values.notes || undefined,
-      });
+      const response = await submitObservation.mutateAsync(payload);
       setResult(response.risk_assessment);
     } catch (err) {
+      if (isNetworkError(err)) {
+        offlineQueue.enqueue(animalId!, payload);
+        setSavedOffline(true);
+        return;
+      }
       setError(friendlyErrorMessage(err, t("common.somethingWentWrong")));
     }
   };

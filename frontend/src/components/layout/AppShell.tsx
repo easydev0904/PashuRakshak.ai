@@ -7,6 +7,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { OfflineBanner } from "@/components/shared/StateViews";
 import { Button } from "@/components/ui/button";
+import { useOfflineSync } from "@/hooks/useOfflineSync";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/store/AuthContext";
@@ -39,6 +40,7 @@ export function AppShell() {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
   const isOnline = useOnlineStatus();
+  const { pendingCount, isSyncing } = useOfflineSync();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const navItems = user ? NAV_BY_ROLE[user.role] ?? [] : [];
@@ -67,9 +69,16 @@ export function AppShell() {
         </div>
       </header>
 
-      {!isOnline && (
-        <div className="px-4 pt-3 sm:px-6">
-          <OfflineBanner />
+      {(!isOnline || pendingCount > 0) && (
+        <div className="flex flex-wrap items-center gap-2 px-4 pt-3 sm:px-6">
+          {!isOnline && <OfflineBanner />}
+          {pendingCount > 0 && (
+            <span className="rounded-full bg-secondary/20 px-3 py-1 text-xs font-medium text-secondary-foreground">
+              {isSyncing
+                ? t("common.syncing")
+                : `${pendingCount} ${pendingCount === 1 ? "draft" : "drafts"} waiting to sync`}
+            </span>
+          )}
         </div>
       )}
 
