@@ -28,6 +28,14 @@ def list_education_content(
     )
 
 
+@router.get("/admin/all", response_model=list[EducationContentRead])
+def list_all_education_content(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
+) -> list:
+    return education_service.list_all_content_for_admin(db)
+
+
 @router.get("/{content_id}", response_model=EducationContentRead)
 def get_education_content(content_id: str, db: Session = Depends(get_db)) -> EducationContentRead:
     content = education_service.get_content_or_404(db, content_id)

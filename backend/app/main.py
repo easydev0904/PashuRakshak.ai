@@ -6,7 +6,17 @@ from fastapi.responses import JSONResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
-from app.api.routes import alerts, analytics, animals, auth, cases, education, farms
+from app.api.routes import (
+    alerts,
+    analytics,
+    animals,
+    audit_logs,
+    auth,
+    cases,
+    education,
+    farms,
+    users,
+)
 from app.core.config import get_settings
 from app.core.errors import AppError
 from app.core.limiter import limiter
@@ -71,3 +81,5 @@ app.include_router(alerts.router, prefix=settings.API_V1_PREFIX)
 app.include_router(cases.router, prefix=settings.API_V1_PREFIX)
 app.include_router(education.router, prefix=settings.API_V1_PREFIX)
 app.include_router(analytics.router, prefix=settings.API_V1_PREFIX)
+app.include_router(users.router, prefix=settings.API_V1_PREFIX)
+app.include_router(audit_logs.router, prefix=settings.API_V1_PREFIX)

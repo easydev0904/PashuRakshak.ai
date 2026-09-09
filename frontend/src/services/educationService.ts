@@ -18,6 +18,8 @@ export interface EducationContentInput {
 export const educationService = {
   list: (filters: EducationFilters = {}) =>
     apiClient.get<EducationContent[]>("/education", { params: filters }).then((r) => r.data),
+  listAllForAdmin: () =>
+    apiClient.get<EducationContent[]>("/education/admin/all").then((r) => r.data),
   create: (payload: EducationContentInput) =>
     apiClient.post<EducationContent>("/education", payload).then((r) => r.data),
   update: (contentId: string, payload: Partial<EducationContentInput>) =>
