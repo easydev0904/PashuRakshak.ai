@@ -1,3 +1,8 @@
+from datetime import datetime, timedelta, timezone
+
+import jwt
+
+from app.core.config import get_settings
 from tests.conftest import auth_header
 
 
@@ -72,3 +77,50 @@ def test_refresh_token_issues_new_access_token(client, farmer_user):
     resp = client.post("/api/v1/auth/refresh", json={"refresh_token": refresh_token})
     assert resp.status_code == 200
     assert resp.json()["access_token"]
+
+
+def _make_token(*, user_id: str, role: str, token_type: str, expires_delta: timedelta) -> str:
+    settings = get_settings()
+    now = datetime.now(timezone.utc)
+    payload = {
+        "sub": user_id,
+        "role": role,
+        "type": token_type,
+        "iat": now,
+        "exp": now + expires_delta,
+    }
+    return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
+
+
+def test_expired_access_token_rejected(client, farmer_user):
+    expired = _make_token(
+        user_id=farmer_user.id,
+        role="farmer",
+        token_type="access",
+        expires_delta=timedelta(minutes=-5),
+    )
+    resp = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {expired}"})
+    assert resp.status_code == 401
+
+
+def test_refresh_token_cannot_be_used_as_access_token(client, farmer_user):
+    """A refresh token should not itself grant API access -- only /auth/refresh accepts it."""
+    refresh_token = _make_token(
+        user_id=farmer_user.id,
+        role="farmer",
+        token_type="refresh",
+        expires_delta=timedelta(days=7),
+    )
+    resp = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {refresh_token}"})
+    assert resp.status_code == 401
+
+
+def test_expired_refresh_token_rejected(client, farmer_user):
+    expired_refresh = _make_token(
+        user_id=farmer_user.id,
+        role="farmer",
+        token_type="refresh",
+        expires_delta=timedelta(minutes=-5),
+    )
+    resp = client.post("/api/v1/auth/refresh", json={"refresh_token": expired_refresh})
+    assert resp.status_code == 401

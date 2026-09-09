@@ -156,3 +156,43 @@ def test_closed_alert_update_still_allowed_for_resolution_note(
     assert resp.status_code == 200
     assert resp.json()["status"] == "resolved"
     assert resp.json()["resolution"] == "No concern found on visit"
+
+
+def test_reviewing_an_already_resolved_alert_does_not_error(
+    client, farmer_user, vet_user, farm, animal
+):
+    farmer_headers = auth_header(client, "farmer@example.com")
+    _create_high_alert(client, farmer_headers, animal)
+    vet_headers = auth_header(client, "vet@example.com")
+    alert_id = client.get("/api/v1/alerts", headers=vet_headers).json()[0]["id"]
+
+    client.post(
+        f"/api/v1/alerts/{alert_id}/review", json={"action": "resolve"}, headers=vet_headers
+    )
+    resp = client.post(
+        f"/api/v1/alerts/{alert_id}/review",
+        json={"action": "acknowledge"},
+        headers=vet_headers,
+    )
+    assert resp.status_code == 200
+    assert resp.json()["status"] == "acknowledged"
+
+
+def test_review_action_rejects_unknown_action(client, farmer_user, vet_user, farm, animal):
+    farmer_headers = auth_header(client, "farmer@example.com")
+    _create_high_alert(client, farmer_headers, animal)
+    vet_headers = auth_header(client, "vet@example.com")
+    alert_id = client.get("/api/v1/alerts", headers=vet_headers).json()[0]["id"]
+
+    resp = client.post(
+        f"/api/v1/alerts/{alert_id}/review",
+        json={"action": "delete_everything"},
+        headers=vet_headers,
+    )
+    assert resp.status_code == 422
+
+
+def test_nonexistent_alert_returns_404(client, vet_user):
+    headers = auth_header(client, "vet@example.com")
+    resp = client.get("/api/v1/alerts/does-not-exist", headers=headers)
+    assert resp.status_code == 404

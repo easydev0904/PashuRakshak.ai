@@ -13,6 +13,18 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
+# app/services/storage.py -> app/services -> app -> backend/
+_BACKEND_DIR = Path(__file__).resolve().parents[2]
+
+
+def _resolve_dir(configured: str) -> Path:
+    """Resolve UPLOAD_DIR against the backend/ directory, not the
+    process's CWD -- otherwise where files land (and where the app looks
+    for them) silently depends on whether uvicorn/pytest/a script was
+    launched from backend/ or from the repo root."""
+    path = Path(configured)
+    return path if path.is_absolute() else (_BACKEND_DIR / path)
+
 
 class StorageBackend(ABC):
     @abstractmethod
@@ -25,7 +37,7 @@ class StorageBackend(ABC):
 
 class LocalStorageBackend(StorageBackend):
     def __init__(self, base_dir: str):
-        self._base_dir = Path(base_dir)
+        self._base_dir = _resolve_dir(base_dir)
         self._base_dir.mkdir(parents=True, exist_ok=True)
 
     def save(self, content: bytes, filename: str) -> str:

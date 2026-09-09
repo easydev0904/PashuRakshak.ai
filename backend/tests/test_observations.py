@@ -1,3 +1,7 @@
+from fastapi.testclient import TestClient
+
+from app.main import app
+from app.services import risk_service
 from tests.conftest import auth_header
 
 NORMAL_PAYLOAD = {
@@ -124,3 +128,25 @@ def test_farmer_cannot_submit_observation_for_other_farms_animal(
         f"/api/v1/animals/{other_animal.id}/observations", json=NORMAL_PAYLOAD, headers=headers
     )
     assert resp.status_code == 403
+
+
+def test_missing_model_artifact_returns_friendly_error_not_stack_trace(
+    client, farmer_user, animal, monkeypatch
+):
+    # `client` sets up the get_db override on the shared `app`; wrap that
+    # same app in a client that returns the 500 response instead of
+    # re-raising, so we can assert on what an actual deployment sends
+    # back to a browser (never a raw traceback or internal detail).
+    safe_client = TestClient(app, raise_server_exceptions=False)
+    monkeypatch.setattr(
+        risk_service, "_resolve_model_path", lambda: "/nonexistent/path/model.joblib"
+    )
+    headers = auth_header(client, "farmer@example.com")
+    resp = safe_client.post(
+        f"/api/v1/animals/{animal.id}/observations", json=NORMAL_PAYLOAD, headers=headers
+    )
+    assert resp.status_code == 500
+    body = resp.json()
+    assert "detail" in body
+    assert "traceback" not in body["detail"].lower()
+    assert "joblib" not in body["detail"].lower()
