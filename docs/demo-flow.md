@@ -104,3 +104,9 @@ observations for this farm, not a confirmed outbreak or diagnosis."*
 - **Bilingual architecture**: every string in the product routes
   through translation keys (`src/i18n/locales/en.json` / `hi.json`) —
   adding a third language is a translation file, not a code change.
+- **Full case workflow**: the seed data pre-populates a case in each
+  of the four states (`open` on `COW-103`, `under_review` on
+  `COW-104`, `follow_up` on `COW-203`, `resolved` with a vet-confirmed
+  outcome on `BUF-201`) — open any of them from the vet's alert queue
+  or `GET /api/v1/animals/{id}/cases` to show the full lifecycle
+  without acting anything out live.

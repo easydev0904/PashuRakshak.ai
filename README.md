@@ -56,7 +56,8 @@ rule engine. See [docs/model-card.md](docs/model-card.md).
 
 ```
 pashurakshak-ai/
-├── docs/            architecture, database, api, security, safety, model-card, demo-flow, deployment
+├── docs/            architecture, database, api, security, safety, model-card, demo-flow, deployment,
+│                    DEMO_GUIDE (handover walkthrough), SIH_PITCH (judge-facing story)
 ├── frontend/         React + TypeScript + Vite app
 ├── backend/           FastAPI app, Alembic migrations, pytest suite
 ├── ml/                 rule engine, feature engineering, training/eval, pytest suite
@@ -107,10 +108,12 @@ python seed/seed_data.py
 dataset (see the script's own docstring). Creates 5 demo users across
 all three roles (password `Demo@1234` for all — see
 [docs/demo-flow.md](docs/demo-flow.md) for the full list and the
-walkthrough it's built to support), 2 farms, 5 animals with real
+walkthrough it's built to support), 2 farms, 11 animals with real
 observation histories (submitted through the actual scoring service,
 so every alert is genuinely AI-produced, not hand-inserted),
-vaccination records, and 12 bilingual education-content entries.
+vaccination records, cases in all four workflow states (open, under
+review, follow-up, resolved), and 12 bilingual education-content
+entries.
 
 ## 10. Running locally
 
@@ -199,6 +202,18 @@ live manual check.
 
 [docs/deployment.md](docs/deployment.md) — Docker Compose (verified)
 and local-dev-without-Docker paths, environment variables, and CI.
+
+## SIH showcase handover
+
+Handing this project to someone else to present? Two docs are written
+specifically for that:
+
+- [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md) — a complete, no-code-
+  required walkthrough: how to start the app, exactly what to click,
+  which seeded animals to use, a backup plan if the live demo breaks,
+  and answers to likely judge questions.
+- [docs/SIH_PITCH.md](docs/SIH_PITCH.md) — the problem/solution story
+  in plain language, for framing the pitch itself.
 
 ## 18. Future improvements
 
