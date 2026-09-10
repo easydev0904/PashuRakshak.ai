@@ -1,0 +1,58 @@
+{
+  "model_version": "prototype-v1",
+  "n_test": 601,
+  "calibration_curve": {
+    "mean_predicted_value": [
+      0.07146626379918548,
+      0.14486414349603718,
+      0.25004280292679787,
+      0.351862683813179,
+      0.4492276406922855,
+      0.5398561457894833,
+      0.6610208225180625,
+      0.7569251464931168,
+      0.8569812579030085,
+      0.9754767734640032
+    ],
+    "fraction_of_positives": [
+      0.06918238993710692,
+      0.05517241379310345,
+      0.0375,
+      0.03225806451612903,
+      0.21428571428571427,
+      0.3,
+      0.5,
+      0.6923076923076923,
+      0.8823529411764706,
+      0.9428571428571428
+    ]
+  },
+  "high_band_threshold": 0.65,
+  "subgroups": {
+    "cattle": {
+      "name": "cattle",
+      "n": 357,
+      "positive_rate": 0.28291316526610644,
+      "high_band_rate": 0.23809523809523808,
+      "high_band_false_positive_rate": 0.0234375,
+      "high_band_false_negative_rate": 0.21782178217821782
+    },
+    "buffalo": {
+      "name": "buffalo",
+      "n": 244,
+      "positive_rate": 0.29098360655737704,
+      "high_band_rate": 0.30327868852459017,
+      "high_band_false_positive_rate": 0.06358381502890173,
+      "high_band_false_negative_rate": 0.11267605633802817
+    }
+  },
+  "overall": {
+    "name": "overall",
+    "n": 601,
+    "positive_rate": 0.28618968386023297,
+    "high_band_rate": 0.26455906821963393,
+    "high_band_false_positive_rate": 0.039627039627039624,
+    "high_band_false_negative_rate": 0.1744186046511628
+  },
+  "limitations": "Evaluated entirely on synthetic/demo data with a caricatured generative process. Subgroup and calibration numbers describe the model's behavior on that synthetic data only and carry no claim about real-world accuracy."
+}

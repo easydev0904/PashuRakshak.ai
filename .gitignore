@@ -1,0 +1,45 @@
+# --- Python / Backend ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+*.db
+*.sqlite3
+
+# --- Node / Frontend ---
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+*.local
+
+# --- ML ---
+ml/models/*.pkl
+ml/models/*.joblib
+!ml/models/.gitkeep
+ml/data/*.csv
+!ml/data/.gitkeep
+
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Uploads (local dev storage) ---
+backend/uploads/
+backend/uploads_test/
+
+# --- OS / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- Docker ---
+infra/docker/pgdata/

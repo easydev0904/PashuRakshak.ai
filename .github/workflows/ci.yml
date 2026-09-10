@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    # Credentials here must match backend/.env.test, which conftest.py
+    # loads as the single source of truth for test settings (both
+    # locally and in CI) -- see conftest.py's comment for why.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: pashurakshak
+          POSTGRES_PASSWORD: pashurakshak_dev_pw
+          POSTGRES_DB: pashurakshak_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Alembic runs standalone (not through conftest.py's .env.test
+      # loading), so it needs this set explicitly. Must match
+      # backend/.env.test's DATABASE_URL exactly.
+      DATABASE_URL: postgresql+psycopg://pashurakshak:pashurakshak_dev_pw@localhost:5432/pashurakshak_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Lint
+        run: ruff check app tests
+      - name: Format check
+        run: black --check app tests
+      - name: Typecheck
+        run: mypy app
+      - name: Train baseline model
+        working-directory: .
+        run: PYTHONPATH=. python -m ml.src.train
+      - name: Run migrations
+        run: alembic upgrade head
+      - name: Test
+        run: pytest tests/ -q
+
+  ml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r ml/requirements.txt
+      - name: Train baseline model
+        run: PYTHONPATH=. python -m ml.src.train
+      - name: Test
+        run: PYTHONPATH=. pytest ml/tests -q
